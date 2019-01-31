@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>All users</title>
+</head>
+<body>
+<span th:insert="~{header::language}"></span>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::account}"></span>
+<span th:insert="~{header::logout}"></span>
+
+<form th:action="@{/all-users}" th:method="post" th:object="${searchUser}">
+    <div>
+        <label for="role" th:text="#{role}"></label>
+        <select name="role" id="role" th:field="*{role}">
+            <option value="" th:text="#{select}"></option>
+            <option th:each="currentRole : ${allRoles}"
+                    th:value="${currentRole}"
+                    th:text="${currentRole}">
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="id">
+            <span th:text="#{user.id}">ID:</span>
+            <input type="number" id="id" th:field="*{id}">
+        </label>
+    </div>
+    <div>
+        <label for="company">
+            <span th:text="#{company}">Company:</span>
+            <input type="text" id="company" th:field="*{company}">
+        </label>
+    </div>
+    <div>
+        <input type="submit" th:value="#{search}">
+    </div>
+</form>
+
+<div>
+    <table class="table table-sm table-light table-bordered" style="width: 500px;">
+        <tr>
+            <th th:text="#{user.id}">ID</th>
+            <th th:text="#{login}">Login</th>
+            <th th:text="#{company}">Company</th>
+            <th th:text="#{role}">Role</th>
+        </tr>
+        <tr th:each="user: ${users}">
+            <td><a th:text="${user.id}" th:href="@{/user-info(id = ${user.id})}">ID</a></td>
+            <td><a th:text="${user.login}" th:href="@{/user-info(id = ${user.id})}">Login</a></td>
+            <td><a th:text="${user.company}" th:href="@{/user-info(id = ${user.id})}">Company</a></td>
+            <td><a th:text="${user.role}" th:href="@{/user-info(id = ${user.id})}">Role</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Order</title>
+</head>
+<body>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::account}"></span>
+<span th:insert="~{header::orders}"></span>
+<span th:insert="~{header::logout}"></span>
+
+<form sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:action="@{/order-u(id=${searchOrder.id})}"
+      th:method="post" th:object="${updateSearchOrder}">
+    <div>
+        <select name="status" id="status">
+            <option th:each="orderStatus : ${allOrderStatuses}"
+                    th:value="${orderStatus.name()}"
+                    th:text="${orderStatus.name()}">
+            </option>
+        </select>
+        <input type="hidden" th:value="${searchOrder.id}" id="id" name="id">
+        <input type="submit" th:value="#{change}">
+    </div>
+</form>
+
+<div>
+    <table class="table table-sm table-light table-bordered" style="width: 500px;">
+        <tr>
+            <th th:text="#{order.id}">ID</th>
+            <td th:text="${searchOrder.id}">ID</td>
+        </tr>
+        <tr>
+            <th th:text="#{company}">Company</th>
+            <td th:text="${searchOrder.company}">Company</td>
+        </tr>
+        <tr>
+            <th th:text="#{date}">Date</th>
+            <td th:text="${searchOrder.date}">Date</td>
+        </tr>
+        <tr>
+            <th th:text="#{status}">Status</th>
+            <td th:text="${searchOrder.status}">Status</td>
+        </tr>
+        <tr>
+            <th th:text="#{comment}">Comment</th>
+            <td th:text="${searchOrder.comment}">Comment</td>
+        </tr>
+    </table>
+
+    <table class="table table-sm table-light table-bordered" style="width: 1000px;">
+        <tr>
+            <th th:text="#{unit}">Unit</th>
+            <th th:text="#{options}">Options</th>
+            <th th:text="#{number}">Number</th>
+            <th th:text="#{price}">Price</th>
+            <th th:text="#{subtotal}">Subtotal</th>
+        </tr>
+        <tr th:each="productTemp : ${searchOrder.products}">
+            <td th:text="${productTemp.unit.name}"></td>
+            <td>
+                <span th:each="option:${productTemp.options}" th:text="${option.name}"></span>
+            </td>
+            <td th:text="${productTemp.number}"></td>
+            <td th:text="${productTemp.sum}"></td>
+            <td th:text="${productTemp.subtotal}"></td>
+        </tr>
+        <tr>
+            <td>
+                <b th:text="${searchOrder.total}"></b>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

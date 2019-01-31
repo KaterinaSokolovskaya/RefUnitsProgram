@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Catalog</title>
+</head>
+<body>
+<span th:insert="~{header::language}"></span>
+<span th:insert="~{header::account}"></span>
+<span th:insert="~{header::logout}"></span>
+<span th:insert="~{header::login}"></span>
+<span th:insert="~{header::registration}"></span>
+
+<form th:action="@{/catalog}" th:method="post" th:object="${searchUnit}">
+    <div>
+        <label for="boilingPoint" th:text="#{boiling.point}"></label>
+        <select name="boilingPoint" id="boilingPoint" th:field="*{boilingPoint}">
+            <option value="" th:text="#{select}"></option>
+            <option th:each="currentBoilingPoint : ${allBoilingPoints}"
+                    th:value="${currentBoilingPoint}"
+                    th:text="${currentBoilingPoint}">
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="range" th:text="#{range}"></label>
+        <select name="range" id="range" th:field="*{range}">
+            <option value="" th:text="#{select}"></option>
+            <option th:each="currentRange : ${allUnitRanges}"
+                    th:value="${currentRange}"
+                    th:text="${currentRange}">
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="minRefCapacity">
+            <span th:text="#{min.ref.capacity}">minRefCapacity:</span>
+            <input type="number" id="minRefCapacity" th:field="*{minRefCapacity}">
+        </label>
+    </div>
+    <div>
+        <label for="maxRefCapacity">
+            <span th:text="#{max.ref.capacity}">maxRefCapacity:</span>
+            <input type="number" id="maxRefCapacity" th:field="*{maxRefCapacity}">
+        </label>
+    </div>
+    <div>
+        <input type="submit" th:value="#{search}">
+    </div>
+</form>
+
+<div >
+    <table class="table table-sm table-light table-bordered" style="width: 500px;">
+        <tr>
+            <th th:text="#{unit}">Unit</th>
+            <th th:text="#{price}">Price</th>
+        </tr>
+        <tr th:each="unit: ${units}">
+            <td><a th:text="${unit.name}" th:href="@{/unit(id = ${unit.id})}">Unit name</a></td>
+            <td th:text="${unit.price}">Unit price</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

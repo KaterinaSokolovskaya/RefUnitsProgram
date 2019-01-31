@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Create unit</title>
+</head>
+<body>
+<span th:insert="~{header::language}"></span>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::account}"></span>
+<br>
+<span th:insert="~{header::option}"></span>
+<span th:insert="~{header::logout}"></span>
+
+<form th:action="@{/create-unit}" th:method="post" th:object="${createUnit}">
+    <label for="name">
+        <span th:text="#{unit}">Unit:</span>
+        <input type="text" id="name" th:field="*{name}">
+        <span th:each="err : ${#fields.errors('name')}" th:text="#{${err}}" style="color: red">Error</span>
+    </label>
+    <br>
+    <label for="range">
+        <span th:text="#{range}">Range:</span>
+        <select name="range" id="range" th:field="*{range}">
+            <option th:each="currentRange : ${allUnitRanges}"
+                    th:value="${currentRange}"
+                    th:text="${currentRange}">
+            </option>
+        </select>
+    </label>
+    <br>
+    <label for="boilingPoint">
+        <span th:text="#{boiling.point}">Boiling Point:</span>
+        <select name="boilingPoint" id="boilingPoint" th:field="*{boilingPoint}">
+            <option th:each="currentBoilingPoint : ${allBoilingPoints}"
+                    th:value="${currentBoilingPoint}"
+                    th:text="${currentBoilingPoint}">
+            </option>
+        </select>
+    </label>
+    <br>
+    <label for="refCapacity">
+        <span th:text="#{ref.capacity}">Ref Capacity:</span>
+        <input type="text" id="refCapacity" th:field="*{refCapacity}">
+        <span th:each="err : ${#fields.errors('refCapacity')}" th:text="#{${err}}" style="color: red">Error</span>
+    </label>
+    <br>
+    <label for="weight">
+        <span th:text="#{weight}">Weight:</span>
+        <input type="number" id="weight" th:field="*{weight}">
+    </label>
+    <br>
+    <label for="length">
+        <span th:text="#{length}">Length:</span>
+        <input type="number" id="length" th:field="*{length}">
+    </label>
+    <br>
+    <label for="width">
+        <span th:text="#{width}">Width:</span>
+        <input type="number" id="width" th:field="*{width}">
+    </label>
+    <br>
+    <label for="height">
+        <span th:text="#{height}">Height:</span>
+        <input type="number" id="height" th:field="*{height}">
+    </label>
+    <br>
+    <label for="description">
+        <span th:text="#{description}">Description:</span>
+        <input type="text" id="description" th:field="*{description}">
+    </label>
+    <br>
+    <label for="price">
+        <span th:text="#{price}">Price:</span>
+        <input type="number" id="price" th:field="*{price}">
+        <span th:each="err : ${#fields.errors('price')}" th:text="#{${err}}" style="color: red">Error</span>
+    </label>
+    <br>
+    <table class="table table-sm table-light table-bordered" style="width: 500px;">
+        <tr>
+            <th th:text="#{description}">Description</th>
+            <th th:text="#{option}">Option</th>
+            <th th:text="#{price}">Price</th>
+            <th th:text="#{select}">Select</th>
+        </tr>
+        <tr th:each="option:${options}">
+            <td th:text="${option.description}"></td>
+            <td th:text="${option.name}"></td>
+            <td th:text="${option.price}"></td>
+            <td>
+                <input type="checkbox" th:value="${option.id}" th:field="*{optionIds}">
+            </td>
+        </tr>
+    </table>
+    <input type="submit" th:value="#{create}">
+</form>
+</body>
+</html>

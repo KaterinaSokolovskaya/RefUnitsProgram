@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Current order</title>
+</head>
+<body>
+<span th:insert="~{header::language}"></span>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::account}"></span>
+<span th:insert="~{header::logout}"></span>
+
+<div>
+    <table class="table table-sm table-light table-bordered" style="width: 1000px;">
+        <tr>
+            <th th:text="#{unit}">Unit</th>
+            <th th:text="#{options}">Options</th>
+            <th th:text="#{number}">Number</th>
+            <th th:text="#{price}">Price</th>
+            <th th:text="#{subtotal}">Subtotal</th>
+        </tr>
+        <tr th:each="product : ${products}">
+            <form th:action="@{/current-order}" th:method="post" th:object="${updateProduct}">
+                <td th:text="${product.unit.name}"></td>
+                <td>
+                    <span  th:each="option:${product.options}" th:text="${option.name}"></span>
+                </td>
+                <td>
+                    <input type="text" name="unit.name" hidden th:value="${product.unit.name}">
+                    <input type="text" name="sum" hidden th:value="${product.sum}">
+                    <input type="text" name="number" id="number" th:default="${product.number}">
+                    <input type="submit" th:value="#{recalculate}">
+                </td>
+                <td th:text="${product.sum}"></td>
+                <td th:text="${product.subtotal}"></td>
+            </form>
+        </tr>
+        <tr>
+            <td>
+                <b  th:text="${total}"></b>
+            </td>
+        </tr>
+    </table>
+    <form th:action="@{/create-order}" th:method="post" th:object="${comment}">
+        <input type="text" name="comment" id="comment">
+        <input type="submit" th:value="#{send.order}">
+    </form>
+</div>
+</body>
+</html>

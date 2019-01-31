@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Registration</title>
+</head>
+<body>
+<span th:insert="~{header::language}"></span>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::login}"></span>
+
+<table class="table table-sm table-light table-bordered" style="width: 500px;">
+    <td align="center">
+    <form th:action="@{/registration}" th:method="post" th:object="${createUser}">
+        <label for="login">
+            <span th:text="#{login}">Login: </span>
+        </label>
+        <input th:field="*{login}" id="login" type="text" name="login">
+        <span th:each="err : ${#fields.errors('login')}" th:text="#{${err}}" style="color: red">Error</span>
+
+        <br>
+        <label for="password">
+            <span th:text="#{password}">Password: </span>
+            <input id="password" type="password" name="password">
+            <span th:each="err : ${#fields.errors('password')}" th:text="#{${err}}" style="color: red">Error</span>
+        </label>
+        <br>
+        <label for="company">
+            <span th:text="#{company}">Company: </span>
+            <input id="company" type="text" name="company">
+            <span th:each="err : ${#fields.errors('company')}" th:text="#{${err}}" style="color: red">Error</span>
+        </label>
+        <br>
+        <label for="contactPerson">
+            <span th:text="#{contact.person}">Contact person: </span>
+            <input id="contactPerson" type="text" name="contactPerson">
+        </label>
+        <br>
+        <label for="mail">
+            <span th:text="#{mail}">E-mail: </span>
+            <input id="mail" type="text" name="mail">
+            <span th:each="err : ${#fields.errors('mail')}" th:text="${err}" style="color: red">Error</span>
+        </label>
+        <br>
+        <label for="telephone">
+            <span th:text="#{tel}">Telephone: </span>
+            <input id="telephone" type="text" name="telephone">
+        </label>
+        <br>
+        <input type="submit" th:value="#{reg.submit}">
+    </form>
+</td>
+</table>
+</body>
+</html>

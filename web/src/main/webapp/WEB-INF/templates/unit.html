@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Unit</title>
+</head>
+<body>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::account}"></span>
+<span th:insert="~{header::logout}"></span>
+
+<div>
+    <table class="table table-sm table-light table-bordered" style="width: 500px;">
+        <tr>
+            <th th:text="#{description}">Description</th>
+            <td th:text="${searchUnit.description}">Description</td>
+        </tr>
+        <tr>
+            <th th:text="#{unit}">Unit</th>
+            <td th:text="${searchUnit.name}">Unit name</td>
+        </tr>
+        <tr>
+            <th th:text="#{boiling.point}">Boiling point</th>
+            <td th:text="${searchUnit.boilingPoint}">Boiling point</td>
+        </tr>
+        <tr>
+            <th th:text="#{range}">Range</th>
+            <td th:text="${searchUnit.range}">Range</td>
+        </tr>
+        <tr>
+            <th th:text="#{ref.capacity}">Ref capacity</th>
+            <td th:text="${searchUnit.refCapacity}">Ref capacity</td>
+        </tr>
+        <tr>
+            <th th:text="#{weight}">Weight</th>
+            <td th:text="${searchUnit.weight}">Weight</td>
+        </tr>
+        <tr>
+            <th th:text="#{length}">Length</th>
+            <td th:text="${searchUnit.length}">Length</td>
+        </tr>
+        <tr>
+            <th th:text="#{width}">Width</th>
+            <td th:text="${searchUnit.width}">Width</td>
+        </tr>
+        <tr>
+            <th th:text="#{height}">Height</th>
+            <td th:text="${searchUnit.height}">Height</td>
+        </tr>
+        <tr>
+            <th th:text="#{price}">Price</th>
+            <td th:text="${searchUnit.price}">Price</td>
+        </tr>
+    </table>
+
+    <form th:action="@{/unit-p}" th:method="post" th:object="${productTemp}">
+        <table class="table table-sm table-light table-bordered" style="width: 500px;">
+            <tr>
+                <th th:text="#{description}">Description</th>
+                <th th:text="#{option}">Option</th>
+                <th th:text="#{price}">Price</th>
+                <th sec:authorize="isAuthenticated()" th:text="#{select}">Select</th>
+            </tr>
+            <tr th:each="option : ${searchUnit.options}">
+                <td th:text="${option.description}"></td>
+                <td th:text="${option.name}"></td>
+                <td th:text="${option.price}"></td>
+                <td>
+                    <input sec:authorize="isAuthenticated()" type="checkbox" th:value="${option.id}" name="selectedOptions">
+                </td>
+            </tr>
+        </table>
+        <input type="text" hidden th:value="${searchUnit.id}" name="unitId">
+        <input sec:authorize="isAuthenticated()" type="submit" th:value="#{add}">
+    </form>
+</div>
+</body>
+</html>

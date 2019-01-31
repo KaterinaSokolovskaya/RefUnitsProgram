@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<span th:fragment="language">
+    <a href="?language=en_US">English</a>
+    <a href="?language=ru_RU">Русский</a>
+</span>
+<span th:fragment="catalog">
+    <a th:text="#{catalog}" th:href="@{/catalog}">Catalog</a>
+</span>
+<span sec:authorize="isAuthenticated()" th:fragment="account">
+    <a th:text="#{account}" th:href="@{/account}">Account</a>
+</span>
+
+<span sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:fragment="users">
+    <a th:text="#{users}" th:href="@{/all-users}">All users</a>
+</span>
+<span sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:fragment="orders">
+    <a th:text="#{orders}" th:href="@{/all-orders}">All orders</a>
+</span>
+<span th:fragment="option">
+    <a th:text="#{create.option}" th:href="@{/create-option}">Create option</a>
+</span>
+<span sec:authorize="isAnonymous()" th:fragment="login">
+    <a th:text="#{login.submit}" th:href="@{/login}">Login</a>
+</span>
+<span sec:authorize="isAnonymous()" th:fragment="registration">
+    <a th:text="#{reg.submit}" th:href="@{/registration}">Registration</a>
+</span>
+
+<span th:fragment="logout">
+    <form sec:authorize="isAuthenticated()" th:action="@{/logout}"
+          th:method="post">
+        <input type="submit" th:value="#{logout.submit}">
+    </form>
+</span>
+</body>
+</html>

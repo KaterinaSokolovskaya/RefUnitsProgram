@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>User info</title>
+</head>
+<body>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::account}"></span>
+<span th:insert="~{header::users}"></span>
+<span th:insert="~{header::logout}"></span>
+
+<form sec:authorize="hasAuthority('ADMIN')" th:action="@{/user-info-u(id=${userInfo.id})}"
+      th:method="post" th:object="${updateSearchUser}">
+    <div>
+        <select name="role" id="role">
+            <option th:each="role : ${allRoles}"
+                    th:value="${role}"
+                    th:text="${role}">
+            </option>
+        </select>
+        <input type="hidden" th:value="${userInfo.id}" id="id" name="id">
+        <br>
+        <input type="submit" th:value="#{change}">
+    </div>
+</form>
+
+<div>
+    <table class="table table-sm table-light table-bordered" style="width: 500px;">
+        <tr>
+            <th th:text="#{user.id}">ID</th>
+            <td th:text="${userInfo.id}">ID</td>
+        </tr>
+        <tr>
+            <th th:text="#{login}">Login</th>
+            <td th:text="${userInfo.login}">Login</td>
+        </tr>
+        <tr>
+            <th th:text="#{date.reg}">Registration Date</th>
+            <td th:text="${userInfo.registrationDate}">Registration Date</td>
+        </tr>
+        <tr>
+            <th th:text="#{contact.person}">Contact Person</th>
+            <td th:text="${userInfo.contactPerson}">Contact Person</td>
+        </tr>
+        <tr>
+            <th th:text="#{company}">Company</th>
+            <td th:text="${userInfo.company}">Company</td>
+        </tr>
+        <tr>
+            <th th:text="#{mail}">E-mail</th>
+            <td th:text="${userInfo.mail}">E-mail</td>
+        </tr>
+        <tr>
+            <th th:text="#{tel}">Telephone</th>
+            <td th:text="${userInfo.telephone}">Telephone</td>
+        </tr>
+        <tr>
+            <th th:text="#{role}">Role</th>
+            <td th:text="${userInfo.role}">Role</td>
+        </tr>
+    </table>
+
+    <table class="table table-sm table-light table-bordered" style="width: 800px;">
+        <tr>
+            <th th:text="#{order.id}">ID</th>
+            <th th:text="#{company}">Company</th>
+            <th th:text="#{date}">Date</th>
+            <th th:text="#{status}">Status</th>
+        </tr>
+        <tr th:each="order : ${userInfo.preOrders}">
+            <td><a th:text="${order.id}" th:href="@{/order(id = ${order.id})}">ID</a></td>
+            <td><a th:text="${order.company}" th:href="@{/order(id = ${order.id})}">Company</a></td>
+            <td><a th:text="${order.date}" th:href="@{/order(id = ${order.id})}">Date</a></td>
+            <td><a th:text="${order.status}" th:href="@{/order(id = ${order.id})}">Status</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

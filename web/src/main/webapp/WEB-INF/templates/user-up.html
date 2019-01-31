@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Update user</title>
+</head>
+<body>
+<span th:insert="~{header::catalog}"></span>
+<span th:insert="~{header::account}"></span>
+<span th:insert="~{header::logout}"></span>
+
+<form th:action="@{/user-up}" th:method="post" th:object="${updateSearchUser}">
+    <table class="table table-sm table-light table-bordered" style="width: 500px;">
+        <td align="center">
+            <label for="contactPerson">
+                <span th:value="#{contact.person}">Contact person:</span>
+                <input type="text" th:value="${defaultUserInfo.contactPerson}" id="contactPerson" name="contactPerson">
+            </label>
+            <br>
+            <label for="mail">
+                <span th:value="#{mail}">E-mail:</span>
+                <input type="text" th:value="${defaultUserInfo.mail}" id="mail" name="mail">
+            </label>
+            <br>
+            <label for="telephone">
+                <span th:value="#{tel}">Telephone:</span>
+                <input type="text" th:value="${defaultUserInfo.telephone}" id="telephone" name="telephone">
+            </label>
+            <br>
+            <input type="submit" th:value="#{change}">
+        </td>
+    </table>
+</form>
+</body>
+</html>
